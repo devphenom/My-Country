@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Navbar from "./Navbar";
 import Country from "./Country";
 
 class Home extends Component {
@@ -33,15 +32,11 @@ class Home extends Component {
 
   loadMore = (prev) =>
     this.setState((prev) => {
-      return { visible: prev.visible + 4 };
+      return { visible: prev.visible + 10 };
     });
   render() {
     return (
       <div className={`${this.props.modeClass()}`}>
-        <Navbar
-          handleModeChange={this.props.handleModeChange}
-          iconClass={this.props.iconClass}
-        />
         <section className="py-3">
           <div className="container-fluid px-md-5">
             <div className="row">

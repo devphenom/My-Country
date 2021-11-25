@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
 
 class Details extends Component {
   state = {
     countryData: {},
   };
   componentDidMount() {
-    fetch(
-      `https://restcountries.eu/rest/v2/alpha/${this.props.match.params.id}`
-    )
+    fetch(`https://restcountries.com/v2/alpha/${this.props.match.params.id}`)
       .then((res) => res.json())
       .then((res) => this.setState({ countryData: res }))
       .catch((error) => alert("Error! Check your internet connection"));
@@ -38,10 +35,6 @@ class Details extends Component {
     } = this.state.countryData;
     return (
       <div className={`details ${this.props.modeClass()}`}>
-        <Navbar
-          handleModeChange={this.props.handleModeChange}
-          iconClass={this.props.iconClass}
-        />
         <section>
           <div className="container-fluid pl-md-3">
             <div className="row py-3">

@@ -4,21 +4,30 @@ import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./Home";
 import Details from "./Details";
 import NoMatch from "./NoMatch";
+import Navbar from "./Navbar";
 
 export default class App extends Component {
-  state = {
-    fetchedAPI: [],
-    darkMode: false,
-  };
+  constructor(props) {
+    super(props);
+    // this.state = {value: ''};
+    this.state = {
+      fetchedAPI: [],
+      darkMode: false,
+    };
+
+    this.handleModeChange = this.handleModeChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
   componentDidMount() {
-    fetch("https://restcountries.eu/rest/v2/all")
+    fetch("https://restcountries.com/v2/all")
       .then((res) => res.json())
       .then((res) => this.setState({ fetchedAPI: res || [] }))
       .catch((error) => alert("error! failed to fetch data"));
   }
-  handleModeChange = (event) =>
-    this.setState({ darkMode: !this.state.darkMode });
+  handleModeChange = () =>
+    this.setState((prevState) => ({ darkMode: !prevState.darkMode }));
+
   modeClass = () => (this.state.darkMode ? "dark-mode" : "light-mode");
   iconClass = () =>
     this.state.darkMode ? (
@@ -36,6 +45,10 @@ export default class App extends Component {
     return (
       <Router>
         <div>
+          <Navbar
+            handleModeChange={this.handleModeChange}
+            iconClass={this.iconClass}
+          />
           <Switch>
             <Route
               exact
@@ -44,8 +57,6 @@ export default class App extends Component {
                 <Home
                   fetchedAPI={this.state.fetchedAPI}
                   modeClass={this.modeClass}
-                  handleModeChange={this.handleModeChange}
-                  iconClass={this.iconClass}
                   {...props}
                 />
               )}
@@ -54,12 +65,7 @@ export default class App extends Component {
               exact
               path="/details/:id"
               component={(props) => (
-                <Details
-                  modeClass={this.modeClass}
-                  handleModeChange={this.handleModeChange}
-                  iconClass={this.iconClass}
-                  {...props}
-                />
+                <Details modeClass={this.modeClass} {...props} />
               )}
             />
             <Route component={NoMatch} />
